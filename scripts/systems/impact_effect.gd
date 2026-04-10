@@ -1,7 +1,9 @@
 extends Node3D
 
-# Island Arcade - Impact Effect
-# Brief particle burst at bullet impact point
+# DEPRECATED: This file is no longer used. See impact_effect.tscn for the current implementation.
+# Do not use this script — it is kept only for reference.
+# BUG #7 FIX: modulate.a on Node3D has no visual effect.
+# Instead, we manipulate StandardMaterial3D.albedo_color.a on the flash mesh.
 
 var lifetime: float = 0.5
 var elapsed: float = 0.0
@@ -17,7 +19,7 @@ func _ready() -> void:
 	flash.material_override = flash_mat
 	add_child(flash)
 	flash.look_at(global_position + Vector3.UP)
-	
+
 	# Add small particles
 	var particles = GPUParticles3D.new()
 	var particle_mat = ParticleProcessMaterial.new()
@@ -28,12 +30,12 @@ func _ready() -> void:
 	particle_mat.gravity = Vector3(0, -5.0, 0)
 	particle_mat.initial_velocity_min = 1.0
 	particle_mat.initial_velocity_max = 3.0
-	
+
 	# Particle mesh
 	var square_mesh = QuadMesh.new()
 	square_mesh.size = Vector2(0.05, 0.05)
 	particles.mesh = square_mesh
-	
+
 	# Emissive material for particles
 	var mat = StandardMaterial3D.new()
 	mat.albedo_color = Color(0.0, 0.8, 1.0)  # Cyan
@@ -41,7 +43,7 @@ func _ready() -> void:
 	mat.emission = Color(0.0, 0.8, 1.0)
 	mat.emission_energy = 2.0
 	square_mesh.material = mat
-	
+
 	particles.process_material = particle_mat
 	particles.amount = 8
 	particles.lifetime = 0.3
@@ -65,6 +67,7 @@ func _process(delta: float) -> void:
 	if elapsed >= lifetime:
 		queue_free()
 	else:
+		# Bug #7 fix: use StandardMaterial3D.albedo_color.a instead of modulate.a
 		var alpha = 1.0 - (elapsed / lifetime)
 		if flash and flash.material_override:
 			var mat = flash.material_override as StandardMaterial3D
