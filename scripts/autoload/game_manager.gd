@@ -57,6 +57,8 @@ func start_game() -> void:
 	combo_timer = 0.0
 	damage_taken_this_wave = false
 	game_started.emit()
+	# Start background music
+	AudioManager.play_music("arcade_music_01.ogg")
 	_start_next_wave()
 
 func _start_next_wave() -> void:
@@ -109,6 +111,7 @@ func on_player_damaged() -> void:
 
 func on_player_died() -> void:
 	current_state = GameState.GAME_OVER
+	AudioManager.stop_music()
 	player_died.emit()
 	game_over.emit(current_score)
 
@@ -133,6 +136,7 @@ func _update_combo_multiplier() -> void:
 
 func _win_game() -> void:
 	current_state = GameState.GAME_OVER
+	AudioManager.stop_music()
 	game_over.emit(current_score)
 
 func get_accuracy() -> float:

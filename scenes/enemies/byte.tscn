@@ -20,4 +20,3 @@ explosiveness = 0.9
 lifetime = 0.3
 one_shot = true
 
-[node name="EnemyHealth" type="Node" parent="Byte"]

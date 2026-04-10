@@ -80,7 +80,6 @@ func _on_wave_started(wave_number: int) -> void:
 	
 	# Animate wave announcement
 	var tween = create_tween()
-	tween.tween_property(wave_announce, "modulate:a", 1.0, 0.3)
 	tween.tween_interval(2.0)
 	tween.tween_property(wave_announce, "modulate:a", 0.0, 1.0)
 	tween.tween_callback(wave_announce.set_visible.bind(false))

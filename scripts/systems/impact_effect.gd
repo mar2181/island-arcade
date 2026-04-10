@@ -1,9 +1,7 @@
 extends Node3D
 
-# DEPRECATED: This file is no longer used. See impact_effect.tscn for the current implementation.
-# Do not use this script — it is kept only for reference.
-# BUG #7 FIX: modulate.a on Node3D has no visual effect.
-# Instead, we manipulate StandardMaterial3D.albedo_color.a on the flash mesh.
+# Impact effect: muzzle flash + particles at bullet impact point.
+# Uses StandardMaterial3D.albedo_color.a for fade (modulate.a has no effect on Node3D).
 
 var lifetime: float = 0.5
 var elapsed: float = 0.0

@@ -64,11 +64,7 @@ func _ready() -> void:
 	show_main_menu()
 
 func _process(_delta: float) -> void:
-	if Input.is_action_just_pressed("pause") and GameManager.current_state == GameManager.GameState.PLAYING:
-		GameManager.pause_game()
-		show_pause_menu()
-	elif Input.is_action_just_pressed("pause") and GameManager.current_state == GameManager.GameState.PAUSED:
-		_on_resume()
+	pass  # Pause handling moved to GameUI to avoid conflicts
 
 func show_main_menu() -> void:
 	current_state = MenuState.MAIN

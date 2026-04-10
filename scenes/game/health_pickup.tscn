@@ -12,10 +12,10 @@ script = ExtResource("1_pickup")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HealthPickup"]
 shape = SubResource("box_health")
 
-[node name="HealthModel" type="Node3D" parent="HealthPickup"]
+[node name="HealthMesh" type="Node3D" parent="HealthPickup"]
 transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0.15, 0)
 
-[node name="HealthKit" parent="HealthPickup/HealthModel" instance=ExtResource("2_model")]
+[node name="HealthKit" parent="HealthPickup/HealthMesh" instance=ExtResource("2_model")]
 
 [node name="GlowLight" type="OmniLight3D" parent="HealthPickup"]
 position = Vector3(0, 0.5, 0)

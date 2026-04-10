@@ -42,7 +42,7 @@ func _spawn_minions() -> void:
 		var offset = Vector3(randf_range(-2.0, 2.0), 0.0, randf_range(-2.0, 2.0))
 		minion.global_position = global_position + offset
 		if get_tree().current_scene.has_node("WaveManager"):
-			get_tree().current_scene.get_node("WaveManager").on_enemy_spawned()
+			get_tree().current_scene.get_node("WaveManager").on_enemy_spawned(minion)
 
 func die(is_headshot: bool = false) -> void:
 	if is_dead:

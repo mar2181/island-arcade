@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=3 format=3]
 
 [ext_resource type="Script" path="res://scripts/enemies/boss_ai.gd" id="1_ai"]
 
@@ -28,4 +28,3 @@ explosiveness = 0.9
 lifetime = 1.0
 one_shot = true
 
-[node name="EnemyHealth" type="Node" parent="BossGlitch"]

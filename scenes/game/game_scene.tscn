@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3]
+[gd_scene load_steps=18 format=3]
 
 [ext_resource type="Script" path="res://scripts/player/player_controller.gd" id="1_player"]
 [ext_resource type="Script" path="res://scripts/player/player_health.gd" id="2_health"]
@@ -13,6 +13,8 @@
 [ext_resource type="Resource" path="res://assets/materials/ceiling_material.tres" id="11_ceil_mat"]
 [ext_resource type="FontFile" path="res://assets/fonts/PressStart2P.ttf" id="12_font_pixel"]
 [ext_resource type="FontFile" path="res://assets/fonts/Inter-Regular.ttf" id="13_font_body"]
+[ext_resource type="Script" path="res://scripts/systems/pickup_spawner.gd" id="14_spawner"]
+[ext_resource type="Script" path="res://scripts/ui/game_ui.gd" id="15_game_ui"]
 
 [sub_resource type="Environment" id="env_arcade"]
 background_mode = 1
@@ -208,6 +210,7 @@ script = ExtResource("4_wave")
 spawn_points = [NodePath("../ArcadeRoom/SpawnNorth"), NodePath("../ArcadeRoom/SpawnSouth"), NodePath("../ArcadeRoom/SpawnWest"), NodePath("../ArcadeRoom/SpawnEast"), NodePath("../ArcadeRoom/SpawnCenterLeft"), NodePath("../ArcadeRoom/SpawnCenterRight")]
 
 [node name="PickupSpawner" type="Node3D" parent="."]
+script = ExtResource("14_spawner")
 
 [node name="HUD" type="Control" parent="."]
 layout_mode = 3
@@ -382,3 +385,152 @@ offset_top = -1.0
 offset_right = 10.0
 offset_bottom = 1.0
 color = Color(1, 1, 1, 0.8)
+
+[node name="GameUI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource("15_game_ui")
+
+[node name="PauseOverlay" type="Control" parent="GameUI"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Background" type="ColorRect" parent="GameUI/PauseOverlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.05, 0.03, 0.08, 0.9)
+
+[node name="VBox" type="VBoxContainer" parent="GameUI/PauseOverlay"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PauseTitle" type="Label" parent="GameUI/PauseOverlay/VBox"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("12_font_pixel")
+theme_override_font_sizes/font_size = 48
+theme_override_colors/font_color = Color(0, 0.9, 1, 1)
+text = "PAUSED"
+horizontal_alignment = 1
+
+[node name="Spacer" type="Control" parent="GameUI/PauseOverlay/VBox"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="ResumeButton" type="Button" parent="GameUI/PauseOverlay/VBox"]
+layout_mode = 2
+custom_minimum_size = Vector2(200, 50)
+theme_override_fonts/font = ExtResource("12_font_pixel")
+theme_override_font_sizes/font_size = 16
+text = "RESUME"
+
+[node name="QuitButton" type="Button" parent="GameUI/PauseOverlay/VBox"]
+layout_mode = 2
+custom_minimum_size = Vector2(200, 50)
+theme_override_fonts/font = ExtResource("12_font_pixel")
+theme_override_font_sizes/font_size = 16
+text = "QUIT TO MENU"
+
+[node name="GameOverOverlay" type="Control" parent="GameUI"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Background" type="ColorRect" parent="GameUI/GameOverOverlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.05, 0.03, 0.08, 0.95)
+
+[node name="VBox" type="VBoxContainer" parent="GameUI/GameOverOverlay"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GameOverTitle" type="Label" parent="GameUI/GameOverOverlay/VBox"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("12_font_pixel")
+theme_override_font_sizes/font_size = 48
+theme_override_colors/font_color = Color(1, 0.2, 0.2, 1)
+text = "GAME OVER"
+horizontal_alignment = 1
+
+[node name="Spacer1" type="Control" parent="GameUI/GameOverOverlay/VBox"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="ScoreLabel" type="Label" parent="GameUI/GameOverOverlay/VBox"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("12_font_pixel")
+theme_override_font_sizes/font_size = 32
+theme_override_colors/font_color = Color(0, 0.9, 1, 1)
+text = "SCORE: 0"
+horizontal_alignment = 1
+
+[node name="WaveLabel" type="Label" parent="GameUI/GameOverOverlay/VBox"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("13_font_body")
+theme_override_font_sizes/font_size = 24
+text = "WAVE: 1"
+horizontal_alignment = 1
+
+[node name="KillsLabel" type="Label" parent="GameUI/GameOverOverlay/VBox"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("13_font_body")
+theme_override_font_sizes/font_size = 24
+text = "KILLS: 0"
+horizontal_alignment = 1
+
+[node name="AccuracyLabel" type="Label" parent="GameUI/GameOverOverlay/VBox"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("13_font_body")
+theme_override_font_sizes/font_size = 24
+text = "ACCURACY: 0.0%"
+horizontal_alignment = 1
+
+[node name="NewHighScoreLabel" type="Label" parent="GameUI/GameOverOverlay/VBox"]
+visible = false
+layout_mode = 2
+theme_override_fonts/font = ExtResource("12_font_pixel")
+theme_override_font_sizes/font_size = 28
+theme_override_colors/font_color = Color(1, 0.8, 0, 1)
+text = "NEW HIGH SCORE!"
+horizontal_alignment = 1
+
+[node name="Spacer2" type="Control" parent="GameUI/GameOverOverlay/VBox"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="PlayAgainButton" type="Button" parent="GameUI/GameOverOverlay/VBox"]
+layout_mode = 2
+custom_minimum_size = Vector2(200, 50)
+theme_override_fonts/font = ExtResource("12_font_pixel")
+theme_override_font_sizes/font_size = 16
+text = "PLAY AGAIN"
+
+[node name="QuitButton" type="Button" parent="GameUI/GameOverOverlay/VBox"]
+layout_mode = 2
+custom_minimum_size = Vector2(200, 50)
+theme_override_fonts/font = ExtResource("12_font_pixel")
+theme_override_font_sizes/font_size = 16
+text = "QUIT TO MENU"

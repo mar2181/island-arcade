@@ -17,7 +17,7 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 config/name="Island Arcade"
 config/description="A first-person arcade shooter set in a neon-soaked arcade on South Padre Island, Texas"
 run/main_scene="res://scenes/main.tscn"
-config/features=PackedStringArray("4.6")
+config/features=PackedStringArray("4.4")
 config/icon="res://assets/textures/ui/icon.png"
 
 [autoload]

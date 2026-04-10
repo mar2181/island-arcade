@@ -1,7 +1,6 @@
 [gd_scene load_steps=3 format=3]
 
 [ext_resource type="Script" path="res://scripts/enemies/glitch_ai.gd" id="1_ai"]
-[ext_resource type="Script" path="res://scripts/enemies/base_enemy.gd" id="2_base"]
 
 [sub_resource type="CapsuleShape3D" id="capsule_enemy"]
 radius = 0.3
@@ -29,4 +28,3 @@ explosiveness = 0.9
 lifetime = 0.5
 one_shot = true
 
-[node name="EnemyHealth" type="Node" parent="Glitch"]

@@ -95,3 +95,259 @@ custom_minimum_size = Vector2(200, 50)
 theme_override_fonts/font = ExtResource("2_font_pixel")
 theme_override_font_sizes/font_size = 16
 text = "QUIT"
+
+[node name="SettingsMenu" type="Control" parent="MenuController"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MenuController/SettingsMenu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SettingsTitle" type="Label" parent="MenuController/SettingsMenu/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_font_pixel")
+theme_override_font_sizes/font_size = 36
+theme_override_colors/font_color = Color(0, 0.9, 1, 1)
+text = "SETTINGS"
+horizontal_alignment = 1
+
+[node name="Spacer1" type="Control" parent="MenuController/SettingsMenu/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="MasterLabel" type="Label" parent="MenuController/SettingsMenu/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_font_body")
+theme_override_font_sizes/font_size = 18
+text = "Master Volume"
+
+[node name="MasterSlider" type="HSlider" parent="MenuController/SettingsMenu/VBoxContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(300, 30)
+max_value = 1.0
+step = 0.01
+value = 1.0
+
+[node name="MusicLabel" type="Label" parent="MenuController/SettingsMenu/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_font_body")
+theme_override_font_sizes/font_size = 18
+text = "Music Volume"
+
+[node name="MusicSlider" type="HSlider" parent="MenuController/SettingsMenu/VBoxContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(300, 30)
+max_value = 1.0
+step = 0.01
+value = 0.7
+
+[node name="SFXLabel" type="Label" parent="MenuController/SettingsMenu/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_font_body")
+theme_override_font_sizes/font_size = 18
+text = "SFX Volume"
+
+[node name="SFXSlider" type="HSlider" parent="MenuController/SettingsMenu/VBoxContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(300, 30)
+max_value = 1.0
+step = 0.01
+value = 1.0
+
+[node name="SensitivityLabel" type="Label" parent="MenuController/SettingsMenu/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_font_body")
+theme_override_font_sizes/font_size = 18
+text = "Mouse Sensitivity"
+
+[node name="SensitivitySlider" type="HSlider" parent="MenuController/SettingsMenu/VBoxContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(300, 30)
+max_value = 5.0
+step = 0.1
+value = 1.0
+
+[node name="FOVLabel" type="Label" parent="MenuController/SettingsMenu/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_font_body")
+theme_override_font_sizes/font_size = 18
+text = "Field of View"
+
+[node name="FOVSlider" type="HSlider" parent="MenuController/SettingsMenu/VBoxContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(300, 30)
+min_value = 60.0
+max_value = 120.0
+step = 1.0
+value = 90.0
+
+[node name="Spacer2" type="Control" parent="MenuController/SettingsMenu/VBoxContainer"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="FullscreenCheck" type="CheckBox" parent="MenuController/SettingsMenu/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_font_body")
+text = "Fullscreen"
+
+[node name="VSyncCheck" type="CheckBox" parent="MenuController/SettingsMenu/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_font_body")
+button_pressed = true
+text = "VSync"
+
+[node name="Spacer3" type="Control" parent="MenuController/SettingsMenu/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="BackButton" type="Button" parent="MenuController/SettingsMenu/VBoxContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(200, 50)
+theme_override_fonts/font = ExtResource("2_font_pixel")
+theme_override_font_sizes/font_size = 16
+text = "BACK"
+
+[node name="GameOverMenu" type="Control" parent="MenuController"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MenuController/GameOverMenu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GameOverTitle" type="Label" parent="MenuController/GameOverMenu/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_font_pixel")
+theme_override_font_sizes/font_size = 48
+theme_override_colors/font_color = Color(1, 0.2, 0.2, 1)
+text = "GAME OVER"
+horizontal_alignment = 1
+
+[node name="Spacer1" type="Control" parent="MenuController/GameOverMenu/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="ScoreLabel" type="Label" parent="MenuController/GameOverMenu/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_font_pixel")
+theme_override_font_sizes/font_size = 32
+theme_override_colors/font_color = Color(0, 0.9, 1, 1)
+text = "SCORE: 0"
+horizontal_alignment = 1
+
+[node name="WaveLabel" type="Label" parent="MenuController/GameOverMenu/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_font_body")
+theme_override_font_sizes/font_size = 24
+text = "WAVE: 1"
+horizontal_alignment = 1
+
+[node name="KillsLabel" type="Label" parent="MenuController/GameOverMenu/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_font_body")
+theme_override_font_sizes/font_size = 24
+text = "KILLS: 0"
+horizontal_alignment = 1
+
+[node name="AccuracyLabel" type="Label" parent="MenuController/GameOverMenu/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_font_body")
+theme_override_font_sizes/font_size = 24
+text = "ACCURACY: 0.0%"
+horizontal_alignment = 1
+
+[node name="NewHighScoreLabel" type="Label" parent="MenuController/GameOverMenu/VBoxContainer"]
+visible = false
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_font_pixel")
+theme_override_font_sizes/font_size = 28
+theme_override_colors/font_color = Color(1, 0.8, 0, 1)
+text = "NEW HIGH SCORE!"
+horizontal_alignment = 1
+
+[node name="Spacer2" type="Control" parent="MenuController/GameOverMenu/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="PlayAgainButton" type="Button" parent="MenuController/GameOverMenu/VBoxContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(200, 50)
+theme_override_fonts/font = ExtResource("2_font_pixel")
+theme_override_font_sizes/font_size = 16
+text = "PLAY AGAIN"
+
+[node name="MenuButton" type="Button" parent="MenuController/GameOverMenu/VBoxContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(200, 50)
+theme_override_fonts/font = ExtResource("2_font_pixel")
+theme_override_font_sizes/font_size = 16
+text = "MAIN MENU"
+
+[node name="PauseMenu" type="Control" parent="MenuController"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MenuController/PauseMenu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PauseTitle" type="Label" parent="MenuController/PauseMenu/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_font_pixel")
+theme_override_font_sizes/font_size = 48
+theme_override_colors/font_color = Color(0, 0.9, 1, 1)
+text = "PAUSED"
+horizontal_alignment = 1
+
+[node name="Spacer" type="Control" parent="MenuController/PauseMenu/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="ResumeButton" type="Button" parent="MenuController/PauseMenu/VBoxContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(200, 50)
+theme_override_fonts/font = ExtResource("2_font_pixel")
+theme_override_font_sizes/font_size = 16
+text = "RESUME"
+
+[node name="SettingsButton" type="Button" parent="MenuController/PauseMenu/VBoxContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(200, 50)
+theme_override_fonts/font = ExtResource("2_font_pixel")
+theme_override_font_sizes/font_size = 16
+text = "SETTINGS"
+
+[node name="QuitButton" type="Button" parent="MenuController/PauseMenu/VBoxContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(200, 50)
+theme_override_fonts/font = ExtResource("2_font_pixel")
+theme_override_font_sizes/font_size = 16
+text = "QUIT TO MENU"

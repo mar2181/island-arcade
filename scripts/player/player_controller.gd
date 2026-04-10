@@ -55,11 +55,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_released("aim_down_sights"):
 		is_ads = false
 	
-	if event.is_action_pressed("pause"):
-		if GameManager.current_state == GameManager.GameState.PLAYING:
-			GameManager.pause_game()
-		elif GameManager.current_state == GameManager.GameState.PAUSED:
-			GameManager.resume_game()
+	# Pause is handled by MenuController to avoid conflicts
 
 func _physics_process(delta: float) -> void:
 	if GameManager.current_state != GameManager.GameState.PLAYING:

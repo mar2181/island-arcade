@@ -5,9 +5,6 @@ extends RigidBody3D
 
 var is_broken: bool = false
 
-func _ready() -> void:
-	pass
-
 func take_damage(_amount: int, _is_headshot: bool = false) -> void:
 	if is_broken:
 		return

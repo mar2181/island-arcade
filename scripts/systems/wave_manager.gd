@@ -34,6 +34,13 @@ var _spawn_queue: Array = []
 
 func _ready() -> void:
 	GameManager.wave_started.connect(_on_wave_started)
+	# If game already started before this scene loaded (e.g. scene change/reload),
+	# kick off the current wave immediately since we missed the signal
+	if GameManager.current_state == GameManager.GameState.PLAYING:
+		if GameManager.current_wave > 0:
+			_on_wave_started(GameManager.current_wave)
+		else:
+			_on_wave_started(1)
 
 func _process(delta: float) -> void:
 	if not wave_active or GameManager.current_state != GameManager.GameState.PLAYING:
@@ -47,6 +54,7 @@ func _process(delta: float) -> void:
 
 func _on_wave_started(wave_number: int) -> void:
 	current_wave = wave_number
+	wave_active = false  # Reset before starting
 	_start_wave(wave_number)
 
 func _start_wave(wave_number: int) -> void:
@@ -100,14 +108,16 @@ func _spawn_next_enemy() -> void:
 	var enemy = enemy_scene.instantiate()
 	get_tree().current_scene.add_child(enemy)
 	enemy.global_position = spawn_pos + Vector3(0.0, 0.5, 0.0)
-	
+
 	if enemy.has_signal("enemy_died"):
 		enemy.enemy_died.connect(_on_enemy_died)
-	
+
 	enemies_alive += 1
 
-func on_enemy_spawned() -> void:
+func on_enemy_spawned(enemy: CharacterBody3D = null) -> void:
 	enemies_alive += 1
+	if enemy and enemy.has_signal("enemy_died"):
+		enemy.enemy_died.connect(_on_enemy_died)
 
 func _on_enemy_died(points: int, position: Vector3) -> void:
 	enemies_alive -= 1

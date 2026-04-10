@@ -19,6 +19,10 @@ var current_music: String = ""
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	# Ensure audio buses exist (Godot only creates Master by default)
+	_ensure_bus("Music")
+	_ensure_bus("SFX")
+	_ensure_bus("Ambient")
 	# Music player
 	music_player = AudioStreamPlayer.new()
 	music_player.bus = "Music"
@@ -33,6 +37,13 @@ func _ready() -> void:
 		player.bus = "SFX"
 		add_child(player)
 		sfx_players.append(player)
+
+func _ensure_bus(bus_name: String) -> void:
+	if AudioServer.get_bus_index(bus_name) == -1:
+		AudioServer.add_bus()
+		var idx = AudioServer.bus_count - 1
+		AudioServer.set_bus_name(idx, bus_name)
+		AudioServer.set_bus_send(idx, "Master")
 
 func play_music(track_name: String) -> void:
 	if track_name == current_music and music_player.playing:
