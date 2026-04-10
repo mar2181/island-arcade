@@ -10,6 +10,8 @@ height = 3.0
 size = Vector3(1.6, 3.0, 1.0)
 
 [node name="BossGlitch" type="CharacterBody3D" groups=["enemy", "boss"]]
+collision_layer = 2
+collision_mask = 5
 script = ExtResource("1_ai")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="BossGlitch"]
@@ -19,7 +21,7 @@ shape = SubResource("capsule_boss")
 shape = SubResource("hitbox_boss")
 disabled = true
 
-[node name="Mesh" type="MeshInstance3D" parent="BossGlitch"]
+[node name="Mesh" type="Node3D" parent="BossGlitch"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 
 [node name="DeathParticles" type="GPUParticles3D" parent="BossGlitch"]
@@ -27,4 +29,3 @@ amount = 50
 explosiveness = 0.9
 lifetime = 1.0
 one_shot = true
-

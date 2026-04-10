@@ -12,6 +12,7 @@ extends Control
 @onready var combo_label: Label = $ComboDisplay/ComboLabel
 @onready var wave_announce: Label = $WaveAnnounce
 @onready var crosshair: Control = $Crosshair
+@onready var damage_overlay: ColorRect = $DamageOverlay
 
 var player: CharacterBody3D
 var weapon: Node3D
@@ -26,6 +27,11 @@ func _ready() -> void:
 	wave_announce.visible = false
 	combo_label.visible = false
 	crosshair.visible = true
+	
+	# Set up damage overlay
+	if damage_overlay:
+		damage_overlay.color = Color(1, 0, 0, 0)
+		damage_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
 
 func _process(_delta: float) -> void:
 	if not player or not is_instance_valid(player):
@@ -65,13 +71,22 @@ func _connect_player_signals() -> void:
 		weapon = player.get_node("CameraPivot/WeaponHolder/Weapon")
 		weapon.ammo_changed.connect(_on_ammo_changed)
 	
-	# ADS crosshair toggle
-	if player.has_signal("is_ads_changed"):
-		pass  # Will handle in process based on ADS state
+	# Connect health changed for damage flash
+	if player.has_node("PlayerHealth"):
+		var health = player.get_node("PlayerHealth")
+		health.health_changed.connect(_on_health_changed)
 
 func _on_ammo_changed(current_mag: int, reserve: int) -> void:
 	ammo_label.text = "%d" % current_mag
 	reserve_label.text = "%d" % reserve
+
+func _on_health_changed(current_hp: int, max_hp: int) -> void:
+	# Red flash on damage
+	if damage_overlay and current_hp < max_hp:
+		var intensity = 0.4 - (float(current_hp) / float(max_hp)) * 0.3
+		var tween = create_tween()
+		damage_overlay.color = Color(1, 0, 0, intensity)
+		tween.tween_property(damage_overlay, "color:a", 0.0, 0.5)
 
 func _on_wave_started(wave_number: int) -> void:
 	wave_announce.text = "WAVE %d" % wave_number

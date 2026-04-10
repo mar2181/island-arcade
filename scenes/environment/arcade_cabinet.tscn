@@ -1,0 +1,21 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/systems/arcade_cabinet.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://assets/models/environment/arcade_cabinet.glb" id="2_model"]
+
+[node name="ArcadeCabinet" type="StaticBody3D"]
+script = ExtResource("1_script")
+
+[node name="BodyMesh" parent="ArcadeCabinet" instance=ExtResource("2_model")]
+
+[node name="ScreenMesh" type="MeshInstance3D" parent="ArcadeCabinet"]
+transform = Transform3D(0.5, 0, 0, 0, 0.4, 0, 0, 0, 0.02, 0, 1.1, -0.35)
+
+[node name="ScreenLight" type="OmniLight3D" parent="ArcadeCabinet"]
+position = Vector3(0, 1.2, -0.5)
+light_energy = 2.0
+light_range = 5.0
+
+[node name="InteractArea" type="Area3D" parent="ArcadeCabinet"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ArcadeCabinet/InteractArea"]

@@ -1,17 +1,26 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=3 format=3]
 
 [ext_resource type="Script" path="res://scripts/enemies/byte_ai.gd" id="1_ai"]
 
 [sub_resource type="BoxShape3D" id="box_byte"]
 size = Vector3(0.5, 0.5, 0.5)
 
+[sub_resource type="BoxShape3D" id="hitbox_byte"]
+size = Vector3(0.5, 0.5, 0.5)
+
 [node name="Byte" type="CharacterBody3D" groups=["enemy"]]
+collision_layer = 2
+collision_mask = 5
 script = ExtResource("1_ai")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Byte"]
 shape = SubResource("box_byte")
 
-[node name="Mesh" type="MeshInstance3D" parent="Byte"]
+[node name="Hitbox" type="CollisionShape3D" parent="Byte"]
+shape = SubResource("hitbox_byte")
+disabled = true
+
+[node name="Mesh" type="Node3D" parent="Byte"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0, 0)
 
 [node name="DeathParticles" type="GPUParticles3D" parent="Byte"]
@@ -19,4 +28,3 @@ amount = 12
 explosiveness = 0.9
 lifetime = 0.3
 one_shot = true
-

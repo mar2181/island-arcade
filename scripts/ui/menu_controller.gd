@@ -117,10 +117,29 @@ func hide_all() -> void:
 	pause_menu.visible = false
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
+var _fade_rect: ColorRect
+
 func _on_play() -> void:
+	# Fade to black then switch scenes
 	hide_all()
-	GameManager.start_game()
-	get_tree().change_scene_to_file("res://scenes/game/game_scene.tscn")
+	_fade_to_scene("res://scenes/game/game_scene.tscn")
+
+func _fade_to_scene(scene_path: String) -> void:
+	if not _fade_rect:
+		_fade_rect = ColorRect.new()
+		_fade_rect.color = Color.BLACK
+		_fade_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		_fade_rect.z_index = 100
+		_fade_rect.anchors_preset = Control.PRESET_FULL_RECT
+		add_child(_fade_rect)
+	_fade_rect.visible = true
+	_fade_rect.color = Color(0, 0, 0, 0)
+	var tween = create_tween()
+	tween.tween_property(_fade_rect, "color:a", 1.0, 0.5)
+	tween.tween_callback(func():
+		GameManager.start_game()
+		get_tree().change_scene_to_file(scene_path)
+	)
 
 func _on_settings() -> void:
 	show_settings()

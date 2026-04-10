@@ -10,6 +10,8 @@ height = 1.6
 size = Vector3(0.6, 1.6, 0.4)
 
 [node name="Glitch" type="CharacterBody3D" groups=["enemy"]]
+collision_layer = 2
+collision_mask = 5
 script = ExtResource("1_ai")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Glitch"]
@@ -19,7 +21,7 @@ shape = SubResource("capsule_enemy")
 shape = SubResource("hitbox_enemy")
 disabled = true
 
-[node name="Mesh" type="MeshInstance3D" parent="Glitch"]
+[node name="Mesh" type="Node3D" parent="Glitch"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
 
 [node name="DeathParticles" type="GPUParticles3D" parent="Glitch"]
@@ -27,4 +29,3 @@ amount = 20
 explosiveness = 0.9
 lifetime = 0.5
 one_shot = true
-

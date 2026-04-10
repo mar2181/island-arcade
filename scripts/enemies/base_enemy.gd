@@ -1,7 +1,8 @@
 extends CharacterBody3D
 
-# Island Arcade - Base Enemy
-# Shared logic for all enemy types
+## Island Arcade - Base Enemy
+## Shared logic for all enemy types
+## All enemies get procedural neon meshes
 
 signal enemy_spawned(enemy: CharacterBody3D)
 signal enemy_died(points: int, position: Vector3)
@@ -30,13 +31,59 @@ func _ready() -> void:
 	if hitbox:
 		hitbox.disabled = true
 	
+	_setup_mesh()
+	_setup_death_particles()
+	
 	# Play spawn animation
+	var spawn_tween = create_tween()
+	spawn_tween.tween_property(self, "scale", Vector3.ONE, 0.3).from(Vector3(0.01, 0.01, 0.01))
+	spawn_tween.tween_property(mesh, "scale", Vector3(1.1, 1.1, 1.1), 0.1)
+	spawn_tween.tween_property(mesh, "scale", Vector3.ONE, 0.1)
+	
 	await get_tree().create_timer(1.5).timeout
 	
 	is_spawning = false
 	if hitbox:
 		hitbox.disabled = false
 	enemy_spawned.emit(self)
+
+func _setup_mesh() -> void:
+	# Override in subclasses to set up unique visual
+	pass
+
+func _setup_death_particles() -> void:
+	if not death_particles:
+		return
+	# Create particle material dynamically
+	var process_mat = ParticleProcessMaterial.new()
+	process_mat.emission_shape = ParticleProcessMaterial.EMISSION_SHAPE_BOX
+	process_mat.emission_box_extents = Vector3(0.3, 0.8, 0.3)
+	process_mat.particle_flag_disable_z = false
+	process_mat.direction = Vector3(0, 1, 0)
+	process_mat.spread = 60.0
+	process_mat.gravity = Vector3(0, -9.8, 0)
+	process_mat.initial_velocity_min = 2.0
+	process_mat.initial_velocity_max = 5.0
+	process_mat.scale_min = 0.05
+	process_mat.scale_max = 0.15
+	death_particles.process_material = process_mat
+	
+	# Particle mesh - small glowing cubes
+	var particle_mesh = BoxMesh.new()
+	particle_mesh.size = Vector3(0.1, 0.1, 0.1)
+	death_particles.mesh = particle_mesh
+	
+	# Emissive material for particles
+	var particle_mat = StandardMaterial3D.new()
+	particle_mat.albedo_color = _get_death_particle_color()
+	particle_mat.emission_enabled = true
+	particle_mat.emission = _get_death_particle_color()
+	particle_mat.emission_energy = 3.0
+	particle_mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	particle_mesh.material = particle_mat
+
+func _get_death_particle_color() -> Color:
+	return Color(1.0, 0.0, 0.8)  # Default pink, override in subclass
 
 func _physics_process(delta: float) -> void:
 	if is_dead or is_spawning:
@@ -105,8 +152,19 @@ func die(is_headshot: bool = false) -> void:
 	queue_free()
 
 func _flash_hit() -> void:
-	if mesh and mesh.has_method("set_instance_shader_parameter"):
-		mesh.set_instance_shader_parameter("flash_intensity", 1.0)
-		await get_tree().create_timer(0.1).timeout
-		if is_instance_valid(mesh):
-			mesh.set_instance_shader_parameter("flash_intensity", 0.0)
+	# Flash all MeshInstance3D children
+	for child in mesh.get_children():
+		if child is MeshInstance3D:
+			for surf_idx in range(child.get_surface_count()):
+				var mat = child.get_surface_override_material(surf_idx)
+				if mat and mat is StandardMaterial3D:
+					var orig_energy = mat.emission_energy
+					mat.emission = Color.WHITE
+					mat.emission_energy = 10.0
+					await get_tree().create_timer(0.08).timeout
+					if is_instance_valid(mat):
+						mat.emission = _get_emission_color()
+						mat.emission_energy = orig_energy
+
+func _get_emission_color() -> Color:
+	return Color(1.0, 0.0, 0.8)  # Default, override in subclass

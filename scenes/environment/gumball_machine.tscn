@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/systems/gumball_machine.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://assets/models/environment/gumball_machine.glb" id="2_model"]
+
+[node name="GumballMachine" type="RigidBody3D"]
+script = ExtResource("1_script")
+
+[node name="Model" parent="GumballMachine" instance=ExtResource("2_model")]
