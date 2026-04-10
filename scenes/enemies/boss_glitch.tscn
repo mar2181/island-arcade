@@ -1,0 +1,31 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/enemies/boss_ai.gd" id="1_ai"]
+
+[sub_resource type="CapsuleShape3D" id="capsule_boss"]
+radius = 0.8
+height = 3.0
+
+[sub_resource type="BoxShape3D" id="hitbox_boss"]
+size = Vector3(1.6, 3.0, 1.0)
+
+[node name="BossGlitch" type="CharacterBody3D" groups=["enemy", "boss"]]
+script = ExtResource("1_ai")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BossGlitch"]
+shape = SubResource("capsule_boss")
+
+[node name="Hitbox" type="CollisionShape3D" parent="BossGlitch"]
+shape = SubResource("hitbox_boss")
+disabled = true
+
+[node name="Mesh" type="MeshInstance3D" parent="BossGlitch"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+
+[node name="DeathParticles" type="GPUParticles3D" parent="BossGlitch"]
+amount = 50
+explosiveness = 0.9
+lifetime = 1.0
+one_shot = true
+
+[node name="EnemyHealth" type="Node" parent="BossGlitch"]

@@ -1,0 +1,32 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/enemies/glitch_ai.gd" id="1_ai"]
+[ext_resource type="Script" path="res://scripts/enemies/base_enemy.gd" id="2_base"]
+
+[sub_resource type="CapsuleShape3D" id="capsule_enemy"]
+radius = 0.3
+height = 1.6
+
+[sub_resource type="BoxShape3D" id="hitbox_enemy"]
+size = Vector3(0.6, 1.6, 0.4)
+
+[node name="Glitch" type="CharacterBody3D" groups=["enemy"]]
+script = ExtResource("1_ai")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Glitch"]
+shape = SubResource("capsule_enemy")
+
+[node name="Hitbox" type="CollisionShape3D" parent="Glitch"]
+shape = SubResource("hitbox_enemy")
+disabled = true
+
+[node name="Mesh" type="MeshInstance3D" parent="Glitch"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+
+[node name="DeathParticles" type="GPUParticles3D" parent="Glitch"]
+amount = 20
+explosiveness = 0.9
+lifetime = 0.5
+one_shot = true
+
+[node name="EnemyHealth" type="Node" parent="Glitch"]

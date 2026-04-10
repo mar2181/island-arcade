@@ -1,0 +1,29 @@
+# Godot 4
+.godot/
+*.import
+export_presets.cfg
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Build outputs (regenerate from editor)
+export/windows/
+export/web/
+
+# Imported assets (auto-generated)
+.import/
+
+# User-specific
+user://
+
+# Temp files
+*.tmp
+*.bak
+~*
