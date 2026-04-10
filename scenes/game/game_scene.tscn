@@ -1,10 +1,18 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene load_steps=16 format=3]
 
 [ext_resource type="Script" path="res://scripts/player/player_controller.gd" id="1_player"]
 [ext_resource type="Script" path="res://scripts/player/player_health.gd" id="2_health"]
 [ext_resource type="Script" path="res://scripts/player/weapon.gd" id="3_weapon"]
 [ext_resource type="Script" path="res://scripts/systems/wave_manager.gd" id="4_wave"]
 [ext_resource type="Script" path="res://scripts/ui/hud.gd" id="5_hud"]
+[ext_resource type="PackedScene" path="res://assets/models/environment/arcade_cabinet.glb" id="6_cabinet"]
+[ext_resource type="PackedScene" path="res://assets/models/environment/gumball_machine.glb" id="7_gumball"]
+[ext_resource type="PackedScene" path="res://assets/models/characters/pixel_blaster.glb" id="8_blaster"]
+[ext_resource type="Resource" path="res://assets/materials/floor_material.tres" id="9_floor_mat"]
+[ext_resource type="Resource" path="res://assets/materials/wall_material.tres" id="10_wall_mat"]
+[ext_resource type="Resource" path="res://assets/materials/ceiling_material.tres" id="11_ceil_mat"]
+[ext_resource type="FontFile" path="res://assets/fonts/PressStart2P.ttf" id="12_font_pixel"]
+[ext_resource type="FontFile" path="res://assets/fonts/Inter-Regular.ttf" id="13_font_body"]
 
 [sub_resource type="Environment" id="env_arcade"]
 background_mode = 1
@@ -45,37 +53,67 @@ environment = SubResource("env_arcade")
 camera_attributes = SubResource("cam_attrs")
 
 [node name="ArcadeRoom" type="Node3D" parent="."]
-# Room geometry built from CSG boxes
 
 [node name="Floor" type="CSGBox3D" parent="ArcadeRoom"]
 use_collision = true
 size = Vector3(30, 0.2, 25)
 position = Vector3(0, -0.1, 0)
-material = StandardMaterial3D.new(0)
+material = ExtResource("9_floor_mat")
 
 [node name="Ceiling" type="CSGBox3D" parent="ArcadeRoom"]
 size = Vector3(30, 0.2, 25)
 position = Vector3(0, 4.1, 0)
+material = ExtResource("11_ceil_mat")
 
 [node name="NorthWall" type="CSGBox3D" parent="ArcadeRoom"]
 use_collision = true
 size = Vector3(30, 4, 0.2)
 position = Vector3(0, 2, -12.5)
+material = ExtResource("10_wall_mat")
 
 [node name="SouthWall" type="CSGBox3D" parent="ArcadeRoom"]
 use_collision = true
 size = Vector3(30, 4, 0.2)
 position = Vector3(0, 2, 12.5)
+material = ExtResource("10_wall_mat")
 
 [node name="WestWall" type="CSGBox3D" parent="ArcadeRoom"]
 use_collision = true
 size = Vector3(0.2, 4, 25)
 position = Vector3(-15, 2, 0)
+material = ExtResource("10_wall_mat")
 
 [node name="EastWall" type="CSGBox3D" parent="ArcadeRoom"]
 use_collision = true
 size = Vector3(0.2, 4, 25)
 position = Vector3(15, 2, 0)
+material = ExtResource("10_wall_mat")
+
+# Arcade cabinets along walls
+[node name="Cabinet1" parent="ArcadeRoom" instance=ExtResource("6_cabinet")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, -11.5)
+
+[node name="Cabinet2" parent="ArcadeRoom" instance=ExtResource("6_cabinet")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -11.5)
+
+[node name="Cabinet3" parent="ArcadeRoom" instance=ExtResource("6_cabinet")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, -11.5)
+
+[node name="Cabinet4" parent="ArcadeRoom" instance=ExtResource("6_cabinet")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, -11.5)
+
+[node name="Cabinet5" parent="ArcadeRoom" instance=ExtResource("6_cabinet")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, -14, 0, -4)
+
+[node name="Cabinet6" parent="ArcadeRoom" instance=ExtResource("6_cabinet")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, -14, 0, 4)
+
+# Gumball machines
+[node name="GumballMachine1" parent="ArcadeRoom" instance=ExtResource("7_gumball")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0, -10)
+
+[node name="GumballMachine2" parent="ArcadeRoom" instance=ExtResource("7_gumball")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, 8)
 
 # Neon grid floor strips
 [node name="NeonStrip1" type="OmniLight3D" parent="ArcadeRoom"]
@@ -102,6 +140,25 @@ light_color = Color(0.8, 0.2, 1, 1)
 light_energy = 3.0
 light_range = 20.0
 
+# Spawn points for wave manager
+[node name="SpawnNorth" type="Marker3D" parent="ArcadeRoom"]
+position = Vector3(0, 0, -10)
+
+[node name="SpawnSouth" type="Marker3D" parent="ArcadeRoom"]
+position = Vector3(0, 0, 10)
+
+[node name="SpawnWest" type="Marker3D" parent="ArcadeRoom"]
+position = Vector3(-12, 0, 0)
+
+[node name="SpawnEast" type="Marker3D" parent="ArcadeRoom"]
+position = Vector3(12, 0, 0)
+
+[node name="SpawnCenterLeft" type="Marker3D" parent="ArcadeRoom"]
+position = Vector3(-5, 0, 0)
+
+[node name="SpawnCenterRight" type="Marker3D" parent="ArcadeRoom"]
+position = Vector3(5, 0, 0)
+
 [node name="Player" type="CharacterBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 script = ExtResource("1_player")
@@ -122,7 +179,7 @@ far = 100.0
 [node name="RayCast3D" type="RayCast3D" parent="Player/CameraPivot"]
 target_position = Vector3(0, 0, -50)
 enabled = true
-collision_mask = 6  # Layers 2 (Enemies) + 4 (Environment)
+collision_mask = 6
 
 [node name="WeaponHolder" type="Node3D" parent="Player/CameraPivot"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, -0.2, -0.5)
@@ -130,9 +187,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, -0.2, -0.5)
 [node name="Weapon" type="Node3D" parent="Player/CameraPivot/WeaponHolder"]
 script = ExtResource("3_weapon")
 
-[node name="WeaponModel" type="MeshInstance3D" parent="Player/CameraPivot/WeaponHolder/Weapon"]
-mesh = BoxMesh.new()
-# Placeholder box - will be replaced with Pixel Blaster model
+[node name="WeaponModel" parent="Player/CameraPivot/WeaponHolder/Weapon" instance=ExtResource("8_blaster")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 
 [node name="MuzzleFlash" type="OmniLight3D" parent="Player/CameraPivot/WeaponHolder/Weapon"]
 position = Vector3(0, 0, -0.5)
@@ -149,6 +205,7 @@ script = ExtResource("2_health")
 
 [node name="WaveManager" type="Node3D" parent="."]
 script = ExtResource("4_wave")
+spawn_points = [NodePath("../ArcadeRoom/SpawnNorth"), NodePath("../ArcadeRoom/SpawnSouth"), NodePath("../ArcadeRoom/SpawnWest"), NodePath("../ArcadeRoom/SpawnEast"), NodePath("../ArcadeRoom/SpawnCenterLeft"), NodePath("../ArcadeRoom/SpawnCenterRight")]
 
 [node name="PickupSpawner" type="Node3D" parent="."]
 
@@ -178,6 +235,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_fonts/font = ExtResource("13_font_body")
+theme_override_font_sizes/font_size = 18
 text = "100 / 100"
 horizontal_alignment = 1
 
@@ -197,13 +256,15 @@ grow_vertical = 0
 
 [node name="AmmoLabel" type="Label" parent="HUD/AmmoDisplay"]
 layout_mode = 2
-text = "12"
+theme_override_fonts/font = ExtResource("13_font_body")
 theme_override_font_sizes/font_size = 36
+text = "12"
 
 [node name="ReserveLabel" type="Label" parent="HUD/AmmoDisplay"]
 layout_mode = 2
-text = " / 60"
+theme_override_fonts/font = ExtResource("13_font_body")
 theme_override_font_sizes/font_size = 24
+text = " / 60"
 
 [node name="ScoreDisplay" type="Control" parent="HUD"]
 layout_mode = 1
@@ -217,8 +278,9 @@ grow_horizontal = 0
 [node name="ScoreLabel" type="Label" parent="HUD/ScoreDisplay"]
 layout_mode = 1
 anchors_preset = 0
-text = "0"
+theme_override_fonts/font = ExtResource("12_font_pixel")
 theme_override_font_sizes/font_size = 48
+text = "0"
 
 [node name="WaveDisplay" type="Control" parent="HUD"]
 layout_mode = 1
@@ -230,8 +292,9 @@ offset_bottom = 60.0
 
 [node name="WaveLabel" type="Label" parent="HUD/WaveDisplay"]
 layout_mode = 1
-text = "WAVE 1"
+theme_override_fonts/font = ExtResource("12_font_pixel")
 theme_override_font_sizes/font_size = 32
+text = "WAVE 1"
 
 [node name="ComboDisplay" type="Control" parent="HUD"]
 layout_mode = 1
@@ -246,8 +309,9 @@ grow_horizontal = 2
 
 [node name="ComboLabel" type="Label" parent="HUD/ComboDisplay"]
 layout_mode = 1
-text = ""
+theme_override_fonts/font = ExtResource("12_font_pixel")
 theme_override_font_sizes/font_size = 36
+text = ""
 horizontal_alignment = 1
 
 [node name="WaveAnnounce" type="Label" parent="HUD"]
@@ -263,6 +327,7 @@ offset_right = 200.0
 offset_bottom = 40.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_fonts/font = ExtResource("12_font_pixel")
 theme_override_font_sizes/font_size = 72
 text = ""
 horizontal_alignment = 1

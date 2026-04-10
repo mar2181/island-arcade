@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=3 format=3]
 
 [ext_resource type="Script" path="res://scripts/systems/ammo_pickup.gd" id="1_pickup"]
+[ext_resource type="PackedScene" path="res://assets/models/props/ammo_box.glb" id="2_model"]
 
 [sub_resource type="BoxShape3D" id="box_pickup"]
 size = Vector3(0.4, 0.3, 0.4)
@@ -11,8 +12,10 @@ script = ExtResource("1_pickup")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="AmmoPickup"]
 shape = SubResource("box_pickup")
 
-[node name="AmmoMesh" type="MeshInstance3D" parent="AmmoPickup"]
-transform = Transform3D(0.3, 0, 0, 0, 0.2, 0, 0, 0, 0.3, 0, 0.3, 0)
+[node name="AmmoModel" type="Node3D" parent="AmmoPickup"]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0.15, 0)
+
+[node name="AmmoBox" parent="AmmoPickup/AmmoModel" instance=ExtResource("2_model")]
 
 [node name="GlowLight" type="OmniLight3D" parent="AmmoPickup"]
 position = Vector3(0, 0.5, 0)

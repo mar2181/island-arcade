@@ -1,9 +1,14 @@
-[gd_resource type="StandardMaterial3D" format=3]
+[gd_resource type="StandardMaterial3D" format=3 load_steps=3]
+
+[ext_resource type="Texture2D" path="res://assets/textures/floor_diff.jpg" id="1_albedo"]
+[ext_resource type="Texture2D" path="res://assets/textures/floor_nor.jpg" id="2_normal"]
 
 [resource]
-albedo_color = Color(0.08, 0.06, 0.12, 1)
-roughness = 0.3
-metallic = 0.1
-emission_enabled = true
-emission = Color(0.0, 0.15, 0.2, 1)
-emission_energy = 0.3
+albedo_color = Color(0.15, 0.15, 0.18, 1)
+albedo_texture = ExtResource("1_albedo")
+roughness = 0.8
+metallic = 0.0
+normal_enabled = true
+normal_texture = ExtResource("2_normal")
+normal_scale = 1.0
+uv1_scale = Vector3(4, 4, 4)
